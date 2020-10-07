@@ -6,9 +6,11 @@ this.addEventListener('install', (event) => {
       cache.addAll([
         '/static/js/bundle.js',
         '/static/js/1.chunk.js',
+        '/static/js/0.chunk.js',
         '/static/js/main.chunk.js',
-        'main.f22661d62f47859372c0.hot-update.js',
         '/index.html',
+        '/manifest.json',
+        '/favicon.ico',
         '/users',
         '/about',
         '/',
@@ -17,12 +19,26 @@ this.addEventListener('install', (event) => {
   );
 });
 
-this.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((res) => {
-      if (res) {
-        return res;
-      }
-    })
-  );
+// this.addEventListener('fetch', (event) => {
+//   if (!navigator.onLine) {
+//     event.respondWith(
+//       caches.match(event.request).then((res) => {
+//         if (res) {
+//           return res;
+//         }
+//       })
+//     );
+//   }
+// });
+
+this.addEventListener('fetch', function (event) {
+  if (!navigator.onLine) {
+    event.respondWith(
+      fetch(event.request).catch(function () {
+        return caches.match(event.request);
+      })
+    );
+  }
 });
+
+//checks whether we are online or not, if not online if return cached pages else return new pages from actual server

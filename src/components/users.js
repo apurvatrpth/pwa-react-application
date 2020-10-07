@@ -12,12 +12,19 @@ class Users extends Component {
     };
   }
 
-  getUsers = () => {
+  // getUsers = () => {
+  //   axios.get('https://jsonplaceholder.typicode.com/users').then((res) => {
+  //     console.log(res.data);
+  //     this.feedUsers(res.data);
+  //   });
+  // };
+
+  componentDidMount() {
     axios.get('https://jsonplaceholder.typicode.com/users').then((res) => {
       console.log(res.data);
       this.feedUsers(res.data);
     });
-  };
+  }
 
   feedUsers = (users) => {
     this.setState({
@@ -29,7 +36,7 @@ class Users extends Component {
     return (
       <div>
         <p>Users Page</p>
-        <button onClick={this.getUsers}>Click</button>
+        {/* <button onClick={this.getUsers}>Click</button> */}
         <Table striped bordered hover>
           <thead>
             <tr>
