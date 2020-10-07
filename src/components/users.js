@@ -4,6 +4,8 @@ import { Table } from 'react-bootstrap';
 
 class Users extends Component {
   constructor(props) {
+    let mode = 'online';
+
     super(props);
 
     this.state = {
@@ -20,10 +22,19 @@ class Users extends Component {
   // };
 
   componentDidMount() {
-    axios.get('https://jsonplaceholder.typicode.com/users').then((res) => {
-      console.log(res.data);
-      this.feedUsers(res.data);
-    });
+    axios
+      .get('https://jsonplaceholder.typicode.com/users')
+      .then((res) => {
+        console.log(res.data);
+        this.feedUsers(res.data);
+        localStorage.setItem('users', JSON.stringify(res.data)); // storing data for cached views in localstorage
+      })
+      .catch((e) => {
+        // alert('Not connected to the internet, data fetched from localstorage');
+        this.mode = 'offline';
+        let collection = localStorage.getItem('users');
+        this.feedUsers(JSON.parse(collection));
+      });
   }
 
   feedUsers = (users) => {
@@ -36,6 +47,14 @@ class Users extends Component {
     return (
       <div>
         <p>Users Page</p>
+        <div>
+          {this.mode === 'offline' ? (
+            <div class='alert alert-warning' role='alert'>
+              You are offline, this data is fetched from localstorage
+            </div>
+          ) : null}
+        </div>
+
         {/* <button onClick={this.getUsers}>Click</button> */}
         <Table striped bordered hover>
           <thead>

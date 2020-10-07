@@ -19,26 +19,29 @@ this.addEventListener('install', (event) => {
   );
 });
 
-// this.addEventListener('fetch', (event) => {
-//   if (!navigator.onLine) {
-//     event.respondWith(
-//       caches.match(event.request).then((res) => {
-//         if (res) {
-//           return res;
-//         }
-//       })
-//     );
-//   }
-// });
-
-this.addEventListener('fetch', function (event) {
+this.addEventListener('fetch', (event) => {
   if (!navigator.onLine) {
     event.respondWith(
-      fetch(event.request).catch(function () {
-        return caches.match(event.request);
+      caches.match(event.request).then((res) => {
+        if (res) {
+          return res;
+        }
+
+        let reqUrl = event.request.clone();
+        return fetch(reqUrl);
       })
     );
   }
 });
+
+// this.addEventListener('fetch', function (event) {
+//   if (!navigator.onLine) {
+//     event.respondWith(
+//       fetch(event.request).catch(function () {
+//         return caches.match(event.request);
+//       })
+//     );
+//   }
+// });
 
 //checks whether we are online or not, if not online if return cached pages else return new pages from actual server
