@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { Navbar, Nav } from 'react-bootstrap';
 import { Link, Route, BrowserRouter as Router } from 'react-router-dom';
@@ -27,7 +26,11 @@ function App() {
           </Nav>
         </Navbar>
         <Route component={About} path='/about' />
-        <Route component={Users} path='/users' />
+        <Route component={Users} path='/users'>
+          <React.Fragment>
+            <Users />
+          </React.Fragment>
+        </Route>
         <Route component={Home} path='/' exact />
       </Router>
     </div>

@@ -9,6 +9,8 @@ this.addEventListener('install', (event) => {
         '/static/js/main.chunk.js',
         'main.f22661d62f47859372c0.hot-update.js',
         '/index.html',
+        '/users',
+        '/about',
         '/',
       ]);
     })
